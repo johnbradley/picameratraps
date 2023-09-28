@@ -108,9 +108,4 @@ To sync the RTC clock from the system clock on the raspberry pi run:
 ./purge.sh
 ```
 
-## BUGS
-Do I need to set the pi system clock from the RTC clock after boot?
-Need to test with wifi off to see if the clock is wrong without WiFi.
-Likely need to run `sudo hwclock -s` after startup
-
 
