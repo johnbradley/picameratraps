@@ -11,9 +11,6 @@ sudo apt-get install pijuice-base -y
 echo "Creating logs/ directory"
 mkdir -p logs
 
-echo "Creating images/ directory"
-mkdir -p images
-
 echo "Setup automatically set system clock from RTC on boot"
 sudo cp rc.local /etc/rc.local
 

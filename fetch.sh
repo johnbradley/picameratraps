@@ -5,6 +5,7 @@ do
     echo "----------------------"
     echo "$HOST"
     echo "----------------------"
-    mkdir -p images/$HOST
-    rsync -v --stats --progress --recursive --times pi@$HOST:images images/$HOST
+    mkdir -p results/$HOST
+    rsync -v --stats --progress --recursive --times pi@$HOST:images results/$HOST
+    rsync -v --stats --progress --recursive --times pi@$HOST:videos results/$HOST
 done
