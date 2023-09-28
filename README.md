@@ -1,12 +1,6 @@
 # picameratraps
 This software allows management of multiple Raspberry Pi camera traps.
 
-## SSH Key
-To avoid entering a password many times you should have a SSH key setup.
-See GitHub's documentation on [Checking for an existing SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys) 
-and [Creating a SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
-You will need the contents of your public key (~/.ssh/*.pub).
-
 ## Features
 - Installs packages and camera trap scripts
 - Setup a schedule for camera trap activities
@@ -30,7 +24,12 @@ The hardware we are currently using
 
 ## Camera Trap Manual Setup
 Each Raspberry Pi needs an SD card with the Raspberry Pi OS installed.
-This is done by using [Raspbery Pi Imager](https://www.raspberrypi.com/software/).
+This is done by using [Raspberry Pi Imager](https://www.raspberrypi.com/software/).
+To avoid entering a password many times you should have a SSH key setup.
+See GitHub's documentation on [Checking for an existing SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys) 
+and [Creating a SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+You will need to enter the contents of your public key (~/.ssh/*.pub) into the Raspberry Pi Imager.
+
 Steps:
 - Plug the SD card into your computer
 - Launch Raspberry Pi Imager
