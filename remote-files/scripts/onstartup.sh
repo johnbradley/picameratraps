@@ -4,4 +4,4 @@ LOG=./logs/onstart.log
 touch $LOG
 echo "Starting up " >> $LOG
 date >> $LOG
-python ./scripts/onstartup.py >> $LOG 2>&1
+python ./scripts/capture.py >> $LOG 2>&1
