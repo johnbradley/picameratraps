@@ -16,3 +16,6 @@ sudo cp cameratrap.service $DEST
 sudo chmod 644 $DEST
 sudo systemctl daemon-reload
 sudo systemctl enable cameratrap.service
+
+echo "Setting next alarm"
+python ./scripts/capture.py init

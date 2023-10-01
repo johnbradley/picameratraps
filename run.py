@@ -89,7 +89,8 @@ def fetch(args):
 
 
 def convert(args):
-    run_cmd("convertvideo.sh", "Converting videos from .h264 to .mkv format")
+    print("Converting videos from .h264 to .mkv format")
+    run_cmd("./convertvideos.sh")
 
 
 def purge(args):
