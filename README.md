@@ -78,6 +78,11 @@ This script will copy scripts and update the job scheduler (crontab).
 ./status.sh
 ```
 
+Check status and also save output to logs/status.txt
+```
+./status.sh | tee -a logs/status.txt
+```
+
 ## Stream Video from Camera Trap
 This step requires that you have installed [VLC](https://www.videolan.org/vlc/) and uses two terminals.
 You need pass the hostname of the camera trap to stream from.
@@ -108,3 +113,28 @@ To sync the RTC clock from the system clock on the raspberry pi run:
 ```
 
 
+
+# Check if we are on WiFi ?
+Perhaps we could use this with the maximum battery option
+```
+iwgetid --raw
+```
+
+# TODO
+- Allow changing SSID - so we can switch to phone tethering in the field
+- Allow setting battery profile so PiJuice can
+  [correctly and efficiently charge the battery, correctly monitor the charge percentages and more](https://github.com/PiSupply/PiJuice/blob/master/Software/README.md)
+
+
+
+
+11:55 Started test
+12:01 battery charge level was 93
+12:04 battery charge level was 91
+
+
+perhaps it can run for 62 minutes 
+Ran about 2 hours best guess
+
+This can be used to find ways to reduce startup time.
+systemd-analyze blame

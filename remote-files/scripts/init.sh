@@ -6,7 +6,7 @@ sudo apt-get update -y
 sudo apt-get upgrade -y
 
 echo "Install software for pijuice"
-sudo apt-get install pijuice-base -y
+sudo apt-get install pijuice-base units -y
 
 echo "Creating logs/ directory"
 mkdir -p logs

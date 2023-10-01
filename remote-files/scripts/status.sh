@@ -1,5 +1,9 @@
 set -e
 
+echo "> PiJuice Status"
+python3 -c 'import pijuice; print(pijuice.PiJuice().status.GetStatus())'
+echo ""
+
 echo "> Battery charge level percentage"
 python3 -c 'import pijuice; print(pijuice.PiJuice().status.GetChargeLevel().get("data"))'
 echo ""

@@ -10,3 +10,4 @@ do
     echo "Running ./scripts/setup.sh on $HOST"
     ssh pi@$HOST ./scripts/setup.sh
 done
+
