@@ -56,7 +56,11 @@ def status(args):
 
 
 def set_wifi(args):
-    print("TODO implement setting Wifi")
+    print("Set WiFi on camera traps - to enable downloading data from Phone HotSpot in the field")
+    ssid = input("SSID: ")
+    password = input("Password: ")
+    cmd = f"sudo raspi-config nonint do_wifi_ssid_passphrase {ssid} {password}"
+    run_cmd_on_traps(cmd=cmd, msg="Applying WiFi settings")
 
 
 def stream(args):
