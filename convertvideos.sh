@@ -9,4 +9,3 @@ do
         mkvmerge -o $MKVPATH --timecodes 0:$TCPATH $VIDPATH
     fi
 done
-

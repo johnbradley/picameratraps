@@ -13,12 +13,13 @@ CAPTURE_HOURS = [
     16,17,18
 ]
 UTC_OFFSET_HR = 4
+SET_ALARM_AFTER_MINUTE = 55
 
 
 def is_recording_time():
     current_hour = datetime.datetime.now().hour
     print(f"Current hour is {current_hour}.")
-    return current_hour >= 7 and current_hour < 19
+    return current_hour in CAPTURE_HOURS
 
 
 def wait_until_start_of_minute():
@@ -29,7 +30,7 @@ def wait_until_start_of_minute():
 
 def run_command(cmd_str):
     print(f"Running {cmd_str}")
-    subprocess.run(f"bash -c '{cmd_str}'", shell=True)    
+    subprocess.run(f"bash -c '{cmd_str}'", shell=True)
 
 
 def record_video(now):
@@ -68,21 +69,20 @@ def shutdown():
     cmd = "sudo shutdown -h now"
     run_command(cmd)
 
+
 if len(sys.argv) == 2 and sys.argv[1] == "init":
     print("Setting the alarm")
     now = datetime.datetime.now()
     update_alarm(now)
-    print("Shutting down", flush=True)
-    shutdown()
 else:
     if is_recording_time():
         print("Within recording time range")
         wait_until_start_of_minute()
         now = datetime.datetime.now()
         record_video(now)
-        if now.minute >= 55: # end of hour so need to update alarm
+        if now.minute >= SET_ALARM_AFTER_MINUTE: # end of hour so need to update alarm
             update_alarm(now)
         print("Shutting down", flush=True)
         shutdown()
     else:
-        print("Unschedule startup time - Expected that user will be downloading data.")
+        print("Unschedule startup - Assuming user will be downloading data and then shutdown before next alarm.")
