@@ -28,10 +28,10 @@ def run_cmd_on_traps(cmd, msg=None, sync_remote_files_first=False):
     if msg:
         print(msg)
     for host in get_trap_hosts():
-        print_host_header()
+        print_host_header(host)
         if sync_remote_files_first:
             run_cmd(f"rsync --recursive --perms remote-files/* pi@{host}:.")
-        run_cmd(f"ssh pi@{host} {cmd}")
+        run_cmd(f"ssh -o ConnectTimeout=4 pi@{host} {cmd}")
 
 
 def init(args):
@@ -50,6 +50,11 @@ def setup_alarms(args):
     )
     print("Run the 'shutdown' command to begin recording on the next alarm")
 
+def sync_rtc(args):
+    run_cmd_on_traps(
+        cmd="sudo hwclock -w --verbose",
+        msg="Synchronizing RTC clock with Pi system clock",
+    )
 
 def status(args):
     run_cmd_on_traps(cmd="./scripts/status.sh", msg="Checking camera trap status")
@@ -69,20 +74,18 @@ def stream(args):
     print("Open another terminal and run:")
     print(f"vlc tcp/h264://{hostname}:8888/")
     print("Press Ctrl-C to terminate streaming")
-    run_cmd_on_traps(cmd="./scripts/streamvid.sh", msg="Setting up streaming video")
+    run_cmd(f"ssh -o ConnectTimeout=4 pi@{hostname} ./scripts/streamvid.sh")
 
 
 def fetch(args):
     base_cmd = "rsync -v --stats --progress --recursive --times"
     for host in get_trap_hosts():
-        print_host_header()
+        print_host_header(host)
         dest = f"results/{host}"
         os.makedirs(dest, exist_ok=True)
-        cmd = (
-            base_cmd
-            + f" pi@{host}host:images pi@{host}host:videos pi@{host}host:logs {dest}"
-        )
-        run_cmd()
+        run_cmd(f"{base_cmd} pi@{host}:images {dest}")
+        run_cmd(f"{base_cmd} pi@{host}:videos {dest}")
+        run_cmd(f"{base_cmd} pi@{host}:logs {dest}")
 
 
 def convert(args):
@@ -118,7 +121,7 @@ def create_command_parser():
     subparser = subparsers.add_parser(
         "sync-rtc", description="Synchronize Real Time Clock with system time"
     )
-    subparser.set_defaults(func=setup_alarms)
+    subparser.set_defaults(func=sync_rtc)
 
     subparser = subparsers.add_parser(
         "status", description="Check status for all camera traps"

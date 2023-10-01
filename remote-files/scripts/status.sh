@@ -28,6 +28,10 @@ echo "> Number of images"
 ls images/ | wc -l
 echo ""
 
+echo "> Number of videos"
+ls videos/ | wc -l
+echo ""
+
 echo "> Crontab"
 crontab -l
 echo ""
