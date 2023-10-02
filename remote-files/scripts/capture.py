@@ -1,4 +1,4 @@
-
+# Capture video and/or set alarms
 import datetime
 import time
 import subprocess

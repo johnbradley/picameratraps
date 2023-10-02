@@ -17,6 +17,7 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
+# Set Raspberry Pi clock from PiJuice RTC clock
 sudo hwclock -s
 
 exit 0
