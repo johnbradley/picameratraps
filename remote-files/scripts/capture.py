@@ -4,16 +4,31 @@ import time
 import subprocess
 import pijuice
 import sys
+import configparser
 
-RECORD_TIME_SECONDS = 30
+
+CAPTURE_INI_PATH = "capture.ini"
+config = configparser.ConfigParser()
+config.read(CAPTURE_INI_PATH)
+settings = config['settings']
+
+RECORD_TIME_SECONDS = int(settings['RECORD_TIME_SECONDS'])
 RECORD_TIME_MS = RECORD_TIME_SECONDS * 1000
-CAPTURE_HOURS = [
-    7, 8, 
-    11,12,13,
-    16,17,18
-]
-UTC_OFFSET_HR = 4
-SET_ALARM_AFTER_MINUTE = 55
+CAPTURE_HOURS = [int(hr) for hr in settings['CAPTURE_HOURS'].split(',')]
+UTC_OFFSET_HR = int(settings['UTC_OFFSET_HR'])
+SET_ALARM_AFTER_MINUTE = int(settings['SET_ALARM_AFTER_MINUTE'])
+try:
+    ALARM_MINUTE_PERIOD = int(settings['ALARM_MINUTE_PERIOD'])
+except KeyError:
+    ALARM_MINUTE_PERIOD = None
+try:
+    ALARM_MINUTE = int(settings['ALARM_MINUTE'])
+except KeyError:
+    ALARM_MINUTE = None
+
+if not ALARM_MINUTE_PERIOD and not ALARM_MINUTE:
+    print(f"Invalid {CAPTURE_INI_PATH} setting. You must specify ALARM_MINUTE_PERIOD or ALARM_MINUTE ")
+    sys.exit(1)
 
 
 def is_recording_time():
@@ -53,9 +68,13 @@ def update_alarm(now):
     alarm_config = {
         "day": "EVERY_DAY",
         "hour": next_alarm_hour + UTC_OFFSET_HR,
-        "minute_period": 5,
         "second": 0
     }
+    if ALARM_MINUTE_PERIOD:
+        alarm_config["minute_period"] = ALARM_MINUTE_PERIOD
+    else:
+        alarm_config["minute"] = ALARM_MINUTE
+
     pj = pijuice.PiJuice()
 
     print(f"Setting the next alarm {alarm_config}")
