@@ -78,13 +78,18 @@ CAPTURE_SCRIPT=./scripts/capture-video.sh
 ```
 
 ## Main Script
+To manage your camera traps there is a single `./run.py` script that has multiple commands.
+To view help for this command run the following:
+```console
+./run.py --help
+```
 
 ## One-Time Initialization
 Before you can perform the one-time init step the camera traps they must be turned on and accessible via WiFi.
 
 Run the setup script to copy scripts and install software.
 ```
-./init.sh
+./run.py init
 ```
 The first time you run this command on a Raspberry Pi you will be prompted to accept the key fingerprint.
 Something like the following:
@@ -101,17 +106,12 @@ The raspberry pi will likely be rebooted to handle a configuration change for th
 Before you can run this script the camera traps they must be turned on and accessible via WiFi.
 This script will copy scripts and update the job scheduler (crontab).
 ```
-./setup.sh
+./run.py setup
 ```
 
 ## Check Camera Trap Status
 ```
-./status.sh
-```
-
-Check status and also save output to logs/status.txt
-```
-./status.sh | tee -a logs/status.txt
+./run.py status
 ```
 
 ## Stream Video from Camera Trap
@@ -120,7 +120,7 @@ You need pass the hostname of the camera trap to stream from.
 
 So to start streaming video from trap `ct1-1.local` run the following:
 ```
-./streamvid.sh ct1-1.local
+./run.py stream ct1-1.local
 ```
 Then in another terminal run the command printed bin a new termial to open VLC.
 When through press Ctrl-C in the first terminal and close VLC.
@@ -130,42 +130,27 @@ When through press Ctrl-C in the first terminal and close VLC.
 The RTC must be set initially and if the battery is depleted or disconnected from the PiJuice.
 To sync the RTC clock from the system clock on the raspberry pi run:
 ```
-./syncrtc.sh
+./run.py sync-rtc
 ```
 
 ## Retrieve images/videos
 ```
-./fetch.sh
+./run.py fetch
 ```
 
 ## Delete images/videos
 ```
-./purge.sh
+./run.py purge
 ```
 
-
-
-# Check if we are on WiFi ?
-Perhaps we could use this with the maximum battery option
+# TODO
+## Change WiFi on camera traps
+See if we can use the present of WiFi to know when to keep the Raspberry Pi active.
+Otherwise we will not have long enough to download images from the camera traps when they are active.
 ```
 iwgetid --raw
 ```
 
-# TODO
-- Allow changing SSID - so we can switch to phone tethering in the field
-- Allow setting battery profile so PiJuice can
-  [correctly and efficiently charge the battery, correctly monitor the charge percentages and more](https://github.com/PiSupply/PiJuice/blob/master/Software/README.md)
+## Allow setting battery profile
+[correctly and efficiently charge the battery, correctly monitor the charge percentages and more](https://github.com/PiSupply/PiJuice/blob/master/Software/README.md)
 
-
-
-
-11:55 Started test
-12:01 battery charge level was 93
-12:04 battery charge level was 91
-
-
-perhaps it can run for 62 minutes 
-Ran about 2 hours best guess
-
-This can be used to find ways to reduce startup time.
-systemd-analyze blame
