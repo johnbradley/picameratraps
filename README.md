@@ -1,5 +1,6 @@
 # picameratraps
 This software allows management of multiple Raspberry Pi camera traps.
+Requires python3 to be installed.
 
 ## Features
 - Installs packages and camera trap scripts
@@ -46,7 +47,7 @@ Steps:
 To customize the recording proceedure you can edit:
 - `cameratraps.txt` - this file contains the list of all camera trap host names (eg `ct1-1.local`)
 - `remote-files/capture.ini` - this file contains settings for when capture video/images and set PiJuice alarms
-- `remote-files/crontab.txt` - this file contains a schedule of when to run scripts in crontab format. See [crontab guru](https://crontab.guru/) for explation about the syntax.
+- `remote-files/crontab.txt` - this file contains a schedule of when to run scripts in crontab format. See [crontab guru](https://crontab.guru/) for explation about the syntax. This file is currently empty and not being used.
 
 ### cameratraps.txt
 Example `cameratraps.txt` content for two camera traps with names ct1-1 and ct1-2:
@@ -75,6 +76,8 @@ SET_ALARM_AFTER_MINUTE = 55
 ALARM_MINUTE_PERIOD = 5
 CAPTURE_SCRIPT=./scripts/capture-video.sh
 ```
+
+## Main Script
 
 ## One-Time Initialization
 Before you can perform the one-time init step the camera traps they must be turned on and accessible via WiFi.
