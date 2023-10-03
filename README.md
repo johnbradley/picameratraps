@@ -43,10 +43,38 @@ Steps:
 - Click Write
 
 ## Edit Camera Trap settings
-Before running the scripts you may need to edit:
+To customize the recording proceedure you can edit:
 - `cameratraps.txt` - this file contains the list of all camera trap host names (eg `ct1-1.local`)
+- `remote-files/capture.ini` - this file contains settings for when capture video/images and set PiJuice alarms
 - `remote-files/crontab.txt` - this file contains a schedule of when to run scripts in crontab format. See [crontab guru](https://crontab.guru/) for explation about the syntax.
-- `remote-files/alarms.ini` - this file contains PiJuice settings for named alarms
+
+### cameratraps.txt
+Example `cameratraps.txt` content for two camera traps with names ct1-1 and ct1-2:
+```
+ct1-1.local
+ct1-2.local
+```
+
+### capture.ini
+The `capture.ini` file contains settings for when to run alarms and video/image config.
+- RECORD_TIME_SECONDS - How long to record video for
+- CAPTURE_HOURS - Commma separated list of hours when capture should occur
+- UTC_OFFSET_HR - Number of hours between local time zone and UTC
+- SET_ALARM_AFTER_MINUTE - Minute after which we should set the next alarm
+- ALARM_MINUTE_PERIOD - Minute alarm repeating value (either this option or ALARM_MINUTE must be set but not both)
+- ALARM_MINUTE - Minute for when the next alarm should fire
+- CAPTURE_SCRIPT - Script to perform capturing
+
+The default settings for `capture.ini` are as follows:
+```
+[settings]
+RECORD_TIME_SECONDS = 30
+CAPTURE_HOURS = 7,8,11,12,13,16,17,18
+UTC_OFFSET_HR = 4
+SET_ALARM_AFTER_MINUTE = 55
+ALARM_MINUTE_PERIOD = 5
+CAPTURE_SCRIPT=./scripts/capture-video.sh
+```
 
 ## One-Time Initialization
 Before you can perform the one-time init step the camera traps they must be turned on and accessible via WiFi.
