@@ -25,6 +25,7 @@ try:
     ALARM_MINUTE = int(settings['ALARM_MINUTE'])
 except KeyError:
     ALARM_MINUTE = None
+CAPTURE_SCRIPT = settings['CAPTURE_SCRIPT']
 
 if not ALARM_MINUTE_PERIOD and not ALARM_MINUTE:
     print(f"Invalid {CAPTURE_INI_PATH} setting. You must specify ALARM_MINUTE_PERIOD or ALARM_MINUTE ")
@@ -51,7 +52,7 @@ def run_command(cmd_str):
 def record_video(now):
     print("Recording video")
     prefix = now.strftime('%Y-%m-%d_%H-%M-%S')
-    cmd = f"libcamera-vid -t {RECORD_TIME_MS} -o videos/{prefix}.h264 --save-pts videos/{prefix}.ts.txt --nopreview >> logs/record.log 2>&1"
+    cmd = f"{CAPTURE_SCRIPT} {RECORD_TIME_MS} {prefix}"
     run_command(cmd)
 
 
