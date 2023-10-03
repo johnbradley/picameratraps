@@ -76,6 +76,12 @@ SET_ALARM_AFTER_MINUTE = 55
 ALARM_MINUTE_PERIOD = 5
 CAPTURE_SCRIPT=./scripts/capture-video.sh
 ```
+This causes the camera traps to 
+- Record 30 seconds of video when the raspberry pi is booted up during the specified capture hours and then shutdown
+- Set PiJuice to wakeup every 5 minutes
+- Set PiJuice alarm if the minute is > 55 (end of the hour)
+
+TODO: Remove need for UTC_OFFSET_HR
 
 ## Main Script
 To manage your camera traps there is a single `./run.py` script that has multiple commands.
