@@ -90,8 +90,6 @@ To view help for this command run the following:
 ./run.py --help
 ```
 
-sync-rtc,set-wifi,shutdown,fetch,convert,purge
-
 ## One-Time Initialization
 Before you can perform the one-time init step the camera traps they must be turned on and accessible via WiFi.
 
@@ -146,9 +144,19 @@ To sync the RTC clock from the system clock on the raspberry pi run:
 ./run.py fetch
 ```
 
+## Convert fetched images in mkv videos
+```
+./run.py convert
+```
+
 ## Delete images/videos
 ```
 ./run.py purge
+```
+
+## Set WiFi SSID
+```
+./run.py set-wifi
 ```
 
 ## Shutdown Camera Traps
