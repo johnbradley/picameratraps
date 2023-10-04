@@ -1,5 +1,6 @@
 # picameratraps
 This software allows management of multiple Raspberry Pi camera traps.
+Requires python3 to be installed.
 
 ## Features
 - Installs packages and camera trap scripts
@@ -43,17 +44,58 @@ Steps:
 - Click Write
 
 ## Edit Camera Trap settings
-Before running the scripts you may need to edit:
+To customize the recording proceedure you can edit:
 - `cameratraps.txt` - this file contains the list of all camera trap host names (eg `ct1-1.local`)
-- `remote-files/crontab.txt` - this file contains a schedule of when to run scripts in crontab format. See [crontab guru](https://crontab.guru/) for explation about the syntax.
-- `remote-files/alarms.ini` - this file contains PiJuice settings for named alarms
+- `remote-files/capture.ini` - this file contains settings for when capture video/images and set PiJuice alarms
+- `remote-files/crontab.txt` - this file contains a schedule of when to run scripts in crontab format. See [crontab guru](https://crontab.guru/) for explation about the syntax. This file is currently empty and not being used.
+
+### cameratraps.txt
+Example `cameratraps.txt` content for two camera traps with names ct1-1 and ct1-2:
+```
+ct1-1.local
+ct1-2.local
+```
+
+### capture.ini
+The `capture.ini` file contains settings for when to run alarms and video/image config.
+- RECORD_TIME_SECONDS - How long to record video for
+- CAPTURE_HOURS - Commma separated list of hours when capture should occur
+- UTC_OFFSET_HR - Number of hours between local time zone and UTC
+- SET_ALARM_AFTER_MINUTE - Minute after which we should set the next alarm
+- ALARM_MINUTE_PERIOD - Minute alarm repeating value (either this option or ALARM_MINUTE must be set but not both)
+- ALARM_MINUTE - Minute for when the next alarm should fire
+- CAPTURE_SCRIPT - Script to perform capturing
+
+The default settings for `capture.ini` are as follows:
+```
+[settings]
+RECORD_TIME_SECONDS = 30
+CAPTURE_HOURS = 7,8,11,12,13,16,17,18
+UTC_OFFSET_HR = 4
+SET_ALARM_AFTER_MINUTE = 55
+ALARM_MINUTE_PERIOD = 5
+CAPTURE_SCRIPT=./scripts/capture-video.sh
+```
+This causes the camera traps to 
+- Record 30 seconds of video when the raspberry pi is booted up during the specified capture hours and then shutdown
+- Set PiJuice to wakeup every 5 minutes
+- Set PiJuice alarm if the minute is > 55 (end of the hour)
+
+TODO: Remove need for UTC_OFFSET_HR
+
+## Main Script
+To manage your camera traps there is a single `./run.py` script that has multiple commands.
+To view help for this command run the following:
+```console
+./run.py --help
+```
 
 ## One-Time Initialization
 Before you can perform the one-time init step the camera traps they must be turned on and accessible via WiFi.
 
 Run the setup script to copy scripts and install software.
 ```
-./init.sh
+./run.py init
 ```
 The first time you run this command on a Raspberry Pi you will be prompted to accept the key fingerprint.
 Something like the following:
@@ -70,12 +112,12 @@ The raspberry pi will likely be rebooted to handle a configuration change for th
 Before you can run this script the camera traps they must be turned on and accessible via WiFi.
 This script will copy scripts and update the job scheduler (crontab).
 ```
-./setup.sh
+./run.py setup
 ```
 
 ## Check Camera Trap Status
 ```
-./status.sh
+./run.py status
 ```
 
 ## Stream Video from Camera Trap
@@ -84,7 +126,7 @@ You need pass the hostname of the camera trap to stream from.
 
 So to start streaming video from trap `ct1-1.local` run the following:
 ```
-./streamvid.sh ct1-1.local
+./run.py stream ct1-1.local
 ```
 Then in another terminal run the command printed bin a new termial to open VLC.
 When through press Ctrl-C in the first terminal and close VLC.
@@ -94,17 +136,43 @@ When through press Ctrl-C in the first terminal and close VLC.
 The RTC must be set initially and if the battery is depleted or disconnected from the PiJuice.
 To sync the RTC clock from the system clock on the raspberry pi run:
 ```
-./syncrtc.sh
+./run.py sync-rtc
 ```
 
 ## Retrieve images/videos
 ```
-./fetch.sh
+./run.py fetch
+```
+
+## Convert fetched images in mkv videos
+```
+./run.py convert
 ```
 
 ## Delete images/videos
 ```
-./purge.sh
+./run.py purge
 ```
 
+## Set WiFi SSID
+```
+./run.py set-wifi
+```
+
+## Shutdown Camera Traps
+This is necessary so the next alarm will fire and capturing will begin
+```
+./run.py shutdown
+```
+
+# TODO
+## Change WiFi on camera traps
+See if we can use the present of WiFi to know when to keep the Raspberry Pi active.
+Otherwise we will not have long enough to download images from the camera traps when they are active.
+```
+iwgetid --raw
+```
+
+## Allow setting battery profile
+[correctly and efficiently charge the battery, correctly monitor the charge percentages and more](https://github.com/PiSupply/PiJuice/blob/master/Software/README.md)
 

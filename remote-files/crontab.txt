@@ -1,4 +1,0 @@
-0 7,8,11.12,13,16,17,18 * * * ./scripts/timelapse-photos.sh 60 3600
-1 9 * * * ./scripts/sleep.sh 11am
-1 13 * * * ./scripts/sleep.sh 4pm
-1 19 * * * ./scripts/sleep.sh 7pm

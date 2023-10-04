@@ -1,5 +1,9 @@
 set -e
 
+echo "> PiJuice Status"
+python3 -c 'import pijuice; print(pijuice.PiJuice().status.GetStatus())'
+echo ""
+
 echo "> Battery charge level percentage"
 python3 -c 'import pijuice; print(pijuice.PiJuice().status.GetChargeLevel().get("data"))'
 echo ""
@@ -22,6 +26,10 @@ echo ""
 
 echo "> Number of images"
 ls images/ | wc -l
+echo ""
+
+echo "> Number of videos"
+ls videos/ | wc -l
 echo ""
 
 echo "> Crontab"
