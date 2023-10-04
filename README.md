@@ -166,13 +166,13 @@ This is necessary so the next alarm will fire and capturing will begin
 ```
 
 # TODO
-## Change WiFi on camera traps
 See if we can use the present of WiFi to know when to keep the Raspberry Pi active.
 Otherwise we will not have long enough to download images from the camera traps when they are active.
+This command might help
 ```
 iwgetid --raw
 ```
 
-## Allow setting battery profile
+Allow setting battery profile so PiJuice can 
 [correctly and efficiently charge the battery, correctly monitor the charge percentages and more](https://github.com/PiSupply/PiJuice/blob/master/Software/README.md)
 
