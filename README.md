@@ -45,9 +45,9 @@ Steps:
 
 ## Edit Camera Trap settings
 To customize the recording proceedure you can edit:
-- `cameratraps.txt` - this file contains the list of all camera trap host names (eg `ct1-1.local`)
-- `remote-files/capture.ini` - this file contains settings for when capture video/images and set PiJuice alarms
-- `remote-files/crontab.txt` - this file contains a schedule of when to run scripts in crontab format. See [crontab guru](https://crontab.guru/) for explation about the syntax. This file is currently empty and not being used.
+- [cameratraps.txt](cameratraps.txt) - this file contains the list of all camera trap host names (eg `ct1-1.local`)
+- [remote-files/capture.ini](remote-files/capture.ini) - this file contains settings for when capture video/images and set PiJuice alarms
+- [remote-files/crontab.txt](remote-files/crontab.txt) - this file contains a schedule of when to run scripts in crontab format. See [crontab guru](https://crontab.guru/) for explation about the syntax. This file is currently empty and not being used.
 
 ### cameratraps.txt
 Example `cameratraps.txt` content for two camera traps with names ct1-1 and ct1-2:
